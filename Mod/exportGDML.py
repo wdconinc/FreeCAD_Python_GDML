@@ -32,10 +32,9 @@ from FreeCAD import Vector
 
 # xml handling
 import argparse
-import xml.etree.ElementTree as ET
+#import xml.etree.ElementTree as ET
+import lxml.etree as ET
 from   xml.etree.ElementTree import XML 
-import xml.dom.minidom 
-#from xml.dom.minidom import minidom
 global ET
 #################################
 # Globals
@@ -54,9 +53,12 @@ if open.__module__ in ['__builtin__', 'io']:
 def prettify(elem):
     """Return a pretty-printed XML string for the Element.
     """
-    rough_string = ET.tostring(elem, 'utf-8')
-    reparsed = xml.dom.minidom.parseString(rough_string)
+    #rough_string = ET.tostring(elem, 'utf-8')
+    rough_string = ET.tostring(elem).decode()
+    #print rough_string
+    reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent="  ")
+    #return(rough_string)
 
 #################################
 # Switch functions
@@ -601,20 +603,14 @@ def export(exportList,filename) :
     #ET.ElementTree(gdml).write("test9e", 'utf-8', True)
 
     # write GDML file 
-    print("Write to GDML file")
-    #navigator= gTransportationManager.GetNavigatorForTracking()
-    ##world_volume= navigator.GetWorldVolume()
-    #    gdml_pretty = prettify(gdml)
-
-    #ET.ElementTree(gdml_pretty).write(filename, 'utf-8', True)
+    print("Write to GDML file : "+filename)
+    #gdml_pretty = prettify(gdml)
+    gdml_pretty = ET.tostring(gdml,encoding='utf8').decode('utf8')
+    #xmlstr = minidom.parseString(gdml_pretty).toprettyxma(indet=" ")
+    #print xmlstr
+    print(gdml_pretty)
+    #/ET.ElementTree(gdml_pretty).write(filename, 'utf-8', True)
     print("GDML")
-    print(str(gdml))
-    ET.ElementTree(gdml).write(filename, 'utf-8', True)
-
-    #gdml_parser = G4GDMLParser()
-    #print(filename)
-    #print(type(filename))
-    #gdml_parser.Write(G4String(str(filename)), world_volume)
-    
-   
-
+    #print(str(gdml))
+    #ET.ElementTree(gdml).write(filename, 'utf-8', True)
+    print("GDML file written")
