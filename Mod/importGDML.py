@@ -97,6 +97,8 @@ def getVal(ptr,var) :
 def processPlacement(base,rot) :
     print "Rotation : "
     print rot.attrib
+    axis = FreeCAD.Vector(0,0,1)
+    angle = 0.0
     if 'y' in rot.attrib :
 	axis = FreeCAD.Vector(0,1,0) 
         angle = float(rot.attrib['y'])
@@ -209,9 +211,10 @@ def parsePhysVol(root,ptr,lx,ly,lz):
        print pos.attrib
     else :
        pos = ptr.find("position")
-    lx += float(eval(pos.get('x')))
-    ly += float(eval(pos.get('y')))
-    lz += float(eval(pos.get('z')))
+    if pos is not None:
+       lx += float(eval(pos.get('x')))
+       ly += float(eval(pos.get('y')))
+       lz += float(eval(pos.get('z')))
     rot = ptr.find("rotationref")
     if rot is not None :
        name = getRef(rot)
@@ -221,8 +224,7 @@ def parsePhysVol(root,ptr,lx,ly,lz):
     volref = ptr.find("volumeref")
     name = getRef(volref)
     solid = getVolSolid(root,name)
-    if ((pos is not None) and (rot is not None)) :
-       createSolid(solid,volref,lx,ly,lz,rot)
+    createSolid(solid,volref,lx,ly,lz,rot)
     parseVolume(root,name,lx,ly,lz)
 
 # ParseVolume 
