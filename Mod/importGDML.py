@@ -31,10 +31,10 @@ __url__ = ["https://github.com/KeithSloan/FreeCAD_GDML"]
 printverbose = False
 
 import FreeCAD, os, sys, re, math
-import Part, PartGui
+import Part
 
 if FreeCAD.GuiUp:
-    import FreeCADGui
+    import PartGui, FreeCADGui
     gui = True
 else:
     if printverbose: print("FreeCAD Gui not present.")
