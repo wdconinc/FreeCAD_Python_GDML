@@ -237,10 +237,12 @@ def processGDML(filename):
     FreeCAD.Console.PrintMessage('Import GDML file : '+filename+'\n')
     if printverbose: print ('ImportGDML Version 0.1')
 
-    import xml.etree.ElementTree as ET
-    tree = ET.parse(filename)
+    import lxml.etree as ET
+    parser = ET.XMLParser(load_dtd = True, resolve_entities = True)
+
+    tree = ET.parse(filename, parser = parser)
     root = tree.getroot()
- 
+
     for setup in root.find('setup'):
         print setup.attrib
         ref = getRef(setup)
